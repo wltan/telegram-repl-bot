@@ -43,10 +43,9 @@ class Batch:
         elif lang == "java":
             self.container = self.client.create_container(
                 image = "java",
-                stdin_open = True,
-                detach = True,
+                detach = False,
                 tty = False,
-                command = "java " + source_file + " > " + out_file if self.stdin is None else "java " + source_file + " > " + out_file + " < " + self.stdin,
+                command = "sh -c 'java " + source_file + " > " + out_file + "'" if self.stdin is None else "sh -c 'java " + source_file + " > " + out_file + " < " + self.stdin + "'",
                 volumes = [VOLUME_PATH],
                 host_config = self.client.create_host_config(binds = {
                     host_path: {
@@ -60,9 +59,6 @@ class Batch:
         elif lang == "c++":
             pass
 
-        # Start the container
-        self.client.start(self.container)
-
         # Initialise listener
         self.listener = threading.Thread(target = self.__listen)
         self.listener.start()
@@ -71,14 +67,9 @@ class Batch:
         self.client.stop(self.container) # Stop the container
 
     def __listen(self):
-        logs = self.client.logs(
-            self.container,
-            stdout = True,
-            stream = True
-        )
-        for line in logs:
-            pass
-        
+        # Start the container
+        self.client.start(self.container)
+
         # Once this code is reached, the container is dead
         self.on_finish(OUTPUT_FILENAME)
         self.on_close()

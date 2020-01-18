@@ -83,7 +83,6 @@ def run(update, context):
                 ".py": "python"
             }[ext]
             def on_finish(outfile):
-                print("Finished!")
                 doc = open(path + outfile, "r")
                 update.message.reply_document(document=doc)
             def on_close():
