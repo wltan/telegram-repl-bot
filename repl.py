@@ -41,6 +41,13 @@ class Repl:
                 detach = True,
                 tty = False
             )
+        elif lang == "c":
+            self.container = self.client.create_container(
+                image = "c",
+                stdin_open = True,
+                detach = True,
+                tty = False
+            )
         elif lang == "source":
             self.container = self.client.create_container(
                 image = "source",
@@ -50,7 +57,8 @@ class Repl:
                 tty = False # If this is true, you get ANSI colour escape sequences in the output
             )
         
-        self.client.start(self.container) # Start the container
+        # Start the container
+        self.client.start(self.container)
         
         # Get sockets
         self.input = self.client.attach_socket(self.container, params={'stdin': 1, 'stream': 1})._sock
