@@ -3,7 +3,7 @@ from api_key import API_KEY
 
 # Command handlers
 def start(update, context):
-    pass
+    update.message.reply_text("Hello World!")
 
 def default(update, context):
     pass
