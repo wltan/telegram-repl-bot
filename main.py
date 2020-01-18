@@ -2,6 +2,7 @@ from telegram.ext import *
 from telegram import *
 import logging
 import sys
+import re
 
 from api_key import API_KEY
 import repl
@@ -73,7 +74,9 @@ def button(update, context):
             "source": "js-slang (Source)"
             }[lang]
         message.reply_text("Now starting " + shell + " interpreter...")
-        pipeout = lambda s: message.reply_text(s)
+        def pipeout(out):
+            if re.match("\S", out): # contains non-whitespace character
+                message.reply_text(s)
         container = repl.launch(lang, pipeout)
         context.chat_data["container"] = container
     else:
