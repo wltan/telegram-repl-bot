@@ -3,7 +3,7 @@ import time
 
 class Repl:
     def __init__(self):
-        self.client = docker.from_env()
+        self.client = docker.APIClient()
         self.container = None
 
     def launch(self, lang, pipeout):
@@ -15,20 +15,29 @@ class Repl:
         Use it to send standard output from the container.
         """
         if lang == "source":
-            self.container = self.client.containers.run("source", "1", stdin_open = True, tty = True, detach = True)
+            self.container = self.client.create_container(
+                "source", "1",
+                stdin_open = True,
+                tty = True)
+        
+        self.client.start(self.container)
+        
+        self.input = self.client.attach_socket(self.container, params={'stdin': 1, 'stream': 1})
+        self.output = self.client.attach_socket(self.container, params={'stdout': 1, 'stream': 1})
 
     def pipein(self, text):
         """
         Sends the text string into the container as standard input.
         There is no need to return anything.
         """
-        pass
+        self.input.send(text)
 
     def kill(self):
         """
         Stops the container.
         """
-        self.container.stop()
+        self.client.stop(self.container)
+        self.client.remove_container(self.container)
 
 # For debugging
 repl = Repl()
