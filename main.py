@@ -71,7 +71,7 @@ def run(update, context):
         if "file_ext" in context.chat_data:
             ext = context.chat_data["file_ext"]
             chat_id = str(update.effective_chat.id)
-            path = "user_data/" + chat_id + "/"
+            path = "user_files/" + chat_id + "/"
             src = "file" + ext
             stdin = "file" + ".txt"
             if not os.path.exists(path + stdin):
@@ -83,6 +83,7 @@ def run(update, context):
                 ".py": "python"
             }[ext]
             def on_finish(outfile):
+                print("Finished!")
                 doc = open(outfile, "r")
                 update.message.reply_document(document=doc)
             def on_close():

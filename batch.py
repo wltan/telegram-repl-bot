@@ -1,6 +1,8 @@
 import docker
+import os
+import threading
 
-VOLUME_PATH = '/user'
+VOLUME_PATH = '/user/'
 OUTPUT_FILENAME = 'out.txt'
 
 def launch(path, src, stdin, lang, on_finish, on_close):
@@ -30,7 +32,10 @@ class Batch:
         self.on_close = on_close
 
         self.client = docker.APIClient()
-        print("HELLO")
+
+        source_file = VOLUME_PATH + self.src
+        out_file = VOLUME_PATH + OUTPUT_FILENAME
+        host_path = os.getcwd() + "/" + self.path
 
         # Language selection
         if lang == "python":
@@ -41,10 +46,10 @@ class Batch:
                 stdin_open = True,
                 detach = True,
                 tty = False,
-                command = "java > " + OUTPUT_FILENAME if self.stdin is None else "java > " + OUTPUT_FILENAME + " < " + self.stdin,
+                command = "java " + source_file + " > " + out_file if self.stdin is None else "java " + source_file + " > " + out_file + " < " + self.stdin,
                 volumes = [VOLUME_PATH],
                 host_config = self.client.create_host_config(binds = {
-                    self.path: {
+                    host_path: {
                         'bind': VOLUME_PATH,
                         'mode': 'rw'
                     }
@@ -57,11 +62,15 @@ class Batch:
 
         # Start the container
         self.client.start(self.container)
+
+        # Initialise listener
+        self.listener = threading.Thread(target = self.__listen)
+        self.listener.start()
     
     def kill(self):
         self.client.stop(self.container) # Stop the container
 
-    def __listen(self, pipeout):
+    def __listen(self):
         logs = self.client.logs(
             self.container,
             stdout = True,
@@ -69,7 +78,7 @@ class Batch:
         )
         for line in logs:
             pass
-        
+        print("END")
         # Once this code is reached, the container is dead
         self.on_finish(OUTPUT_FILENAME)
         self.on_close()
