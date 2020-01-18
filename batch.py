@@ -82,7 +82,19 @@ class Batch:
                 })
             )
         elif lang == "c++":
-            pass
+            self.container = self.client.create_container(
+                image = "cpp-batch",
+                detach = False,
+                tty = False,
+                command = "sh -c 'g++ " + source_file + " -o out && ./out > " + out_file + "'" if self.stdin is None else "sh -c 'g++ " + source_file + " -o out && ./out > " + out_file + " < " + self.stdin + "'",
+                volumes = [VOLUME_PATH],
+                host_config = self.client.create_host_config(binds = {
+                    host_path: {
+                        'bind': VOLUME_PATH,
+                        'mode': 'rw'
+                    }
+                })
+            )
 
         # Initialise listener
         self.listener = threading.Thread(target = self.__listen)

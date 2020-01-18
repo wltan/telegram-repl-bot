@@ -7,3 +7,4 @@ docker build -t python-repl -f dockerfiles/python-repl-dockerfile .
 docker build -t c-repl -f dockerfiles/c-repl-dockerfile .
 docker build -t main -f dockerfiles/main-dockerfile .
 docker build -t c-batch -f dockerfiles/c-batch-dockerfile .
+docker build -t cpp-batch -f dockerfiles/cpp-batch-dockerfile .
