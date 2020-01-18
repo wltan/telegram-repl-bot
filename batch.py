@@ -68,7 +68,19 @@ class Batch:
                 })
             )
         elif lang == "c":
-            pass
+            self.container = self.client.create_container(
+                image = "c-batch",
+                detach = False,
+                tty = False,
+                command = "sh -c 'gcc " + source_file + " -o out && ./out > " + out_file + "'" if self.stdin is None else "sh -c 'gcc " + source_file + " -o out && ./out > " + out_file + " < " + self.stdin + "'",
+                volumes = [VOLUME_PATH],
+                host_config = self.client.create_host_config(binds = {
+                    host_path: {
+                        'bind': VOLUME_PATH,
+                        'mode': 'rw'
+                    }
+                })
+            )
         elif lang == "c++":
             pass
 
