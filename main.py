@@ -125,7 +125,11 @@ def document(update, context):
                     path = "user_files/" + chat_id + "/file" + other
                     if os.path.exists(path):
                         os.remove(path)
-            doc.get_file().download(custom_path="user_files/" + chat_id + "/file" + file_ext)
+            if not os.path.exists("user_files"):
+                os.mkdir("user_files")
+            if not os.path.exists("user_files/" + chat_id):
+                os.mkdir("user_files/" + chat_id)
+            doc.get_file().download(custom_path="user_files/" + chat_id + "/file" + file_ext, timeout=1000)
         else:
             update.message.reply_text("Unknown file type: " + file_ext)
     else:

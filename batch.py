@@ -1,3 +1,8 @@
+import docker
+
+VOLUME_PATH = '/user'
+OUTPUT_FILENAME = 'out.txt'
+
 def launch(path, src, stdin, lang, on_finish, on_close):
     """
     Parameters
@@ -9,10 +14,10 @@ def launch(path, src, stdin, lang, on_finish, on_close):
                                 argument is the path to output file
     on_close (nullary function) - call when container is dead
     """
-    pass
+    return Batch(path, src, stdin, lang, on_finish, on_close)
 
 def kill(instance):
-    pass
+    instance.kill()
 
 class Batch:
     def __init__(self, path, src, stdin, lang, on_finish, on_close):
@@ -24,12 +29,48 @@ class Batch:
         self.on_finish = on_finish
         self.on_close = on_close
 
+        self.client = docker.APIClient()
+        print("HELLO")
+
         # Language selection
         if lang == "python":
             pass
         elif lang == "java":
-            pass
+            self.container = self.client.create_container(
+                image = "java",
+                stdin_open = True,
+                detach = True,
+                tty = False,
+                command = "java > " + OUTPUT_FILENAME if self.stdin is None else "java > " + OUTPUT_FILENAME + " < " + self.stdin,
+                volumes = [VOLUME_PATH],
+                host_config = self.client.create_host_config(binds = {
+                    self.path: {
+                        'bind': VOLUME_PATH,
+                        'mode': 'rw'
+                    }
+                })
+            )
         elif lang == "c":
             pass
         elif lang == "c++":
             pass
+
+        # Start the container
+        self.client.start(self.container)
+    
+    def kill(self):
+        self.client.stop(self.container) # Stop the container
+
+    def __listen(self, pipeout):
+        logs = self.client.logs(
+            self.container,
+            stdout = True,
+            stream = True
+        )
+        for line in logs:
+            pass
+        
+        # Once this code is reached, the container is dead
+        self.on_finish(OUTPUT_FILENAME)
+        self.on_close()
+        self.client.remove_container(self.container) # Remove the container
