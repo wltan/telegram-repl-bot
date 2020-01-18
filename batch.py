@@ -78,7 +78,7 @@ class Batch:
         )
         for line in logs:
             pass
-        print("END")
+        
         # Once this code is reached, the container is dead
         self.on_finish(OUTPUT_FILENAME)
         self.on_close()
