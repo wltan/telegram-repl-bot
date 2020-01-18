@@ -22,15 +22,15 @@ class Repl:
         
         self.client.start(self.container)
         
-        self.input = self.client.attach_socket(self.container, params={'stdin': 1, 'stream': 1})
-        self.output = self.client.attach_socket(self.container, params={'stdout': 1, 'stream': 1})
+        self.input = self.client.attach_socket(self.container, params={'stdin': 1, 'stream': 1})._sock
+        self.output = self.client.attach_socket(self.container, params={'stdout': 1, 'stream': 1})._sock
 
     def pipein(self, text):
         """
         Sends the text string into the container as standard input.
         There is no need to return anything.
         """
-        self.input.send(text)
+        self.input.send(text.encode('utf-8')) # Convert to bytes
 
     def kill(self):
         """
@@ -42,5 +42,6 @@ class Repl:
 # For debugging
 repl = Repl()
 repl.launch("source", 1)
+repl.pipein("5 === 5;")
 time.sleep(5)
 repl.kill()
