@@ -58,13 +58,9 @@ class Repl:
         self.client.remove_container(self.container) # Remove the container
 
     def __listen(self, pipeout):
-        while True:
-            if not self.is_listening:
-                break
-            s = self.output.recv(MESSAGE_LIMIT)
-            if s != "":
-                pipeout(s.decode('utf-8'))
-            time.sleep(POLL_INTERVAL)
+        logs = self.client.logs(self.container, stdout=True, stream=True)
+        for line in logs:
+                pipeout(line.decode('utf-8'))
     
     def stop_listener(self):
         self.is_listening = False
