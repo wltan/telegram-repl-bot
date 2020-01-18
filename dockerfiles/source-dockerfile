@@ -3,5 +3,3 @@ RUN git clone https://github.com/source-academy/js-slang.git
 WORKDIR js-slang
 RUN yarn
 RUN yarn build
-ENTRYPOINT ["node", "dist/repl/repl.js"]
-CMD ["4"] # Run Source 4 by default

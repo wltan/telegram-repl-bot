@@ -28,9 +28,11 @@ class Repl:
         # Language selection
         if lang == "source":
             self.container = self.client.create_container(
-                "source", "1",
+                image = "source",
+                command = "node dist/repl/repl.js 4",
                 stdin_open = True,
-                tty = True)
+                detach = True,
+                tty = False)
         
         self.client.start(self.container) # Start the container
         
