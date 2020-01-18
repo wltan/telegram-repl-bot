@@ -29,28 +29,28 @@ class Repl:
         # Language selection
         if lang == "python":
             self.container = self.client.create_container(
-                image = "python",
+                image = "python-repl",
                 stdin_open = True,
                 detach = True,
                 tty = True # If this is false, the Python shell doesn't bother outputting anything
             )
         elif lang == "java":
             self.container = self.client.create_container(
-                image = "java",
+                image = "java-repl",
                 stdin_open = True,
                 detach = True,
                 tty = False
             )
         elif lang == "c":
             self.container = self.client.create_container(
-                image = "c",
+                image = "c-repl",
                 stdin_open = True,
                 detach = True,
                 tty = False
             )
         elif lang == "source":
             self.container = self.client.create_container(
-                image = "source",
+                image = "source-repl",
                 command = "node dist/repl/repl.js 4",
                 stdin_open = True,
                 detach = True,
