@@ -1,5 +1,5 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-token = "TOKEN"
+from api_key import API_KEY
 
 # Command handlers
 def start(update, context):
@@ -10,7 +10,7 @@ def default(update, context):
 
 # Initializing the bot
 def main():
-    updater = Updater(token, use_context=True)
+    updater = Updater(API_KEY, use_context=True)
 
     dp = updater.dispatcher
 
