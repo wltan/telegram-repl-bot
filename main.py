@@ -77,8 +77,7 @@ def button(update, context):
             if re.match("\S", out): # contains non-whitespace character
                 message.reply_text(out)
         def on_close():
-            if "container" in context.chat_data:
-                del context.chat_data["container"]
+            context.chat_data.pop("container", None)
         container = repl.launch(lang, pipeout, on_close)
         context.chat_data["container"] = container
     else:
