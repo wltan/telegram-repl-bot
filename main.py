@@ -11,8 +11,10 @@ def start(update, context):
     """
     Intro message
     """
-    context.chat_data["mode"] = 0
+    if "mode" not in context.chat_data:
+        context.chat_data["mode"] = 0
     update.message.reply_text("Hello World!")
+    update.message.reply_text("To use me, please use /mode.")
 
 def mode(update, context):
     """
@@ -84,6 +86,8 @@ def drop_data(update, context):
     """
     context.chat_data.clear()
     context.user_data.clear()
+    context.user_data["mode"] = 0
+    update.message.reply_text("Existing data cleared!")
 
 def drop_command(message, command):
     """
