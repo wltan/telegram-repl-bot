@@ -11,6 +11,7 @@ def start(update, context):
     """
     Intro message
     """
+    context.chat_data["mode"] = 0
     update.message.reply_text("Hello World!")
 
 def mode(update, context):
@@ -59,16 +60,18 @@ def default(update, context):
 # Callback handlers
 def button(update, context):
     if "mode" in context.chat_data and context.chat_data["mode"] == 1 and "container" not in context.chat_data:
-        lang = update.callback_query.data
-        update.callback_query.message.edit_reply_markup() # remove the buttons
+        query = update.callback_query
+        message = query.message
+        lang = query.data
+        message.edit_reply_markup() # remove the buttons
         shell = {
             "python": "python (Python)",
             "java"  : "jshell (Java)",
             "c"     : "igcc (C)",
             "source": "js-slang (Source)"
             }[lang]
-        update.callback_query.message.reply_text("Now starting " + shell + " interpreter...")
-        pipeout = lambda s: update.message.reply_text(s)
+        message.reply_text("Now starting " + shell + " interpreter...")
+        pipeout = lambda s: message.reply_text(s)
         container = repl.launch(lang, pipeout)
         context.chat_data["container"] = container
     else:
@@ -91,7 +94,7 @@ def drop_command(message, command):
 # Initializing the bot
 def main():
     # Log to stdout
-    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+    logging.basicConfig(stream=sys.stdout, level=logging.ERROR)
 
     updater = Updater(API_KEY, use_context=True)
 
