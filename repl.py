@@ -26,7 +26,14 @@ class Repl:
         self.client = docker.APIClient()
 
         # Language selection
-        if lang == "java":
+        if lang == "python":
+            self.container = self.client.create_container(
+                image = "python",
+                stdin_open = True,
+                detach = True,
+                tty = False
+            )
+        elif lang == "java":
             self.container = self.client.create_container(
                 image = "java",
                 stdin_open = True,
@@ -66,9 +73,13 @@ class Repl:
         self.client.remove_container(self.container) # Remove the container
 
     def __listen(self, pipeout):
-        logs = self.client.logs(self.container, stdout=True, stream=True)
+        logs = self.client.logs(
+            self.container,
+            stdout=True,
+            stream=True
+        )
         for line in logs:
-                pipeout(line.decode('utf-8'))
+            pipeout(line.decode('utf-8'))
     
     def stop_listener(self):
         self.is_listening = False
