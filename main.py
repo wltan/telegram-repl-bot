@@ -50,7 +50,7 @@ def exit(update, context):
         update.message.reply_text("Error: Interpreter not started or already terminated")
 
 def default(update, context):
-    if "mode" in context.chat_data and context.chat_data["mode"] == "1":
+    if "mode" in context.chat_data and context.chat_data["mode"] == 1:
         if "container" in context.chat_data:
             repl.pipein(context.chat_data["container"], update.message.text)
         else:
@@ -58,7 +58,7 @@ def default(update, context):
 
 # Callback handlers
 def button(update, context):
-    if context.chat_data["mode"] == 1 and "container" not in context.chat_data:
+    if "mode" in context.chat_data and context.chat_data["mode"] == 1 and "container" not in context.chat_data:
         lang = update.callback_query.data
         update.callback_query.message.edit_reply_markup() # remove the buttons
         shell = {
