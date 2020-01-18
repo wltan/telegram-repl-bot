@@ -1,5 +1,7 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from api_key import API_KEY
+import logging
+import sys
 
 # Command handlers
 def start(update, context):
@@ -10,6 +12,9 @@ def default(update, context):
 
 # Initializing the bot
 def main():
+    # Log to stdout
+    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+
     updater = Updater(API_KEY, use_context=True)
 
     dp = updater.dispatcher
