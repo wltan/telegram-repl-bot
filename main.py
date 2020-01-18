@@ -75,7 +75,7 @@ def button(update, context):
         message.reply_text("Now starting " + shell + " interpreter...")
         def pipeout(out):
             if re.match("\S", out): # contains non-whitespace character
-                message.reply_text(s)
+                message.reply_text(out)
         def on_close():
             if "container" in context.chat_data:
                 del context.chat_data["container"]
