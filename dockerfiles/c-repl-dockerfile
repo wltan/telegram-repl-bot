@@ -1,0 +1,19 @@
+FROM base
+RUN apt-get install -y cmake
+RUN apt-get install -y libncurses5-dev libncursesw5-dev
+RUN curl -sS -o libedit-20191231-3.1.tar.gz http://thrysoee.dk/editline/libedit-20191231-3.1.tar.gz
+RUN tar xzvf libedit-20191231-3.1.tar.gz
+WORKDIR libedit-20191231-3.1
+RUN ./configure
+RUN make
+RUN make install
+WORKDIR ..
+RUN git clone --depth 1 https://github.com/llvm/llvm-project.git
+RUN mkdir build
+WORKDIR build
+RUN cmake -DLLVM_ENABLE_PROJECTS=clang -G "Unix Makefiles" ../llvm
+RUN make
+WORKDIR llvm/tools/ccons
+RUN git clone https://github.com/asvitkine/ccons.git
+RUN cmake CMakeLists.txt
+RUN make
