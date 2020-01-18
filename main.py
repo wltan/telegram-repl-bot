@@ -83,7 +83,7 @@ def run(update, context):
                 ".py": "python"
             }[ext]
             def on_finish(outfile):
-                doc = open(path + outfile, "r")
+                doc = open(path + outfile, "rb")
                 update.message.reply_document(document=doc)
             def on_close():
                 context.chat_data.pop("container", None)

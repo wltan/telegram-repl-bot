@@ -1,6 +1,7 @@
 import docker
 import os
 import threading
+import time
 
 VOLUME_PATH = '/user/'
 OUTPUT_FILENAME = 'out.txt'
@@ -81,6 +82,9 @@ class Batch:
     def __listen(self):
         # Start the container
         self.client.start(self.container)
+
+        # Ensure that file is released before reading
+        time.sleep(0.5)
 
         # Once this code is reached, the container is dead
         self.on_finish(OUTPUT_FILENAME)
