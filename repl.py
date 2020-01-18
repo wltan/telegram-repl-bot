@@ -14,3 +14,9 @@ def pipein(container, text):
     There is no need to return anything.
     """
     pass
+
+def kill(container):
+    """
+    Stops the container.
+    """
+    pass
