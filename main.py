@@ -49,7 +49,6 @@ def exit(update, context):
     """
     if "container" in context.chat_data:
         repl.kill(context.chat_data["container"])
-        del context.chat_data["container"]
     else:
         update.message.reply_text("Error: Interpreter not started or already terminated")
 
@@ -77,7 +76,10 @@ def button(update, context):
         def pipeout(out):
             if re.match("\S", out): # contains non-whitespace character
                 message.reply_text(s)
-        container = repl.launch(lang, pipeout)
+        def on_close():
+            if "container" in context.chat_data:
+                del context.chat_data["container"]
+        container = repl.launch(lang, pipeout, on_close)
         context.chat_data["container"] = container
     else:
         print(context.chat_data["mode"]) # debug statement
@@ -87,8 +89,8 @@ def drop_data(update, context):
     """
     Clears all chat data and 'resets' the state of the bot.
     """
-    context.chat_data.clear()
-    context.user_data.clear()
+    if "container" in context.chat_data:
+        repl.kill(context.chat_data["container"])
     context.user_data["mode"] = 0
     update.message.reply_text("Existing data cleared!")
 
