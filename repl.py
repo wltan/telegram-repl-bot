@@ -5,12 +5,17 @@ import threading
 POLL_INTERVAL = 0.5
 MESSAGE_LIMIT = 4096
 
-class Repl:
-    def __init__(self):
-        self.client = docker.APIClient()
-        self.container = None
+def launch(lang, pipeout):
+    return Repl(lang, pipeout)
 
-    def launch(self, lang, pipeout):
+def pipein(instance, text):
+    instance.pipein(text)
+
+def kill(instance):
+    instance.kill()
+
+class Repl:
+    def __init__(self, lang, pipeout):
         """
         Spawns a container with the interpreter for the given language.
         Returns an instance of the container.
@@ -18,14 +23,18 @@ class Repl:
         pipeout is a function that takes a string and sends it back to the user.
         Use it to send standard output from the container.
         """
+        self.client = docker.APIClient()
+
+        # Language selection
         if lang == "source":
             self.container = self.client.create_container(
                 "source", "1",
                 stdin_open = True,
                 tty = True)
         
-        self.client.start(self.container)
+        self.client.start(self.container) # Start the container
         
+        # Get sockets
         self.input = self.client.attach_socket(self.container, params={'stdin': 1, 'stream': 1})._sock
         self.output = self.client.attach_socket(self.container, params={'stdout': 1, 'stream': 1})._sock
 
