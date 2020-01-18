@@ -61,7 +61,7 @@ class Repl:
                 break
             s = self.output.recv(MESSAGE_LIMIT)
             if s != "":
-                pipeout(s)
+                pipeout(s.decode('utf-8'))
             time.sleep(POLL_INTERVAL)
     
     def stop_listener(self):
