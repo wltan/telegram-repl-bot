@@ -53,7 +53,7 @@ def exit(update, context):
 def default(update, context):
     if "mode" in context.chat_data and context.chat_data["mode"] == 1:
         if "container" in context.chat_data:
-            repl.pipein(context.chat_data["container"], update.message.text)
+            repl.pipein(context.chat_data["container"], update.message.text + "\n")
         else:
             update.message.reply_text("Error: Interpreter not started or already terminated")
 
