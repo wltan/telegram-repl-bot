@@ -2,11 +2,10 @@ import docker
 import time
 import threading
 
-POLL_INTERVAL = 0.5
 MESSAGE_LIMIT = 4096
 
-def launch(lang, pipeout):
-    return Repl(lang, pipeout)
+def launch(lang, pipeout, on_close):
+    return Repl(lang, pipeout, on_close)
 
 def pipein(instance, text):
     instance.pipein(text)
@@ -15,7 +14,7 @@ def kill(instance):
     instance.kill()
 
 class Repl:
-    def __init__(self, lang, pipeout):
+    def __init__(self, lang, pipeout, on_close):
         """
         Spawns a container with the interpreter for the given language.
         Returns an instance of the container.
@@ -24,6 +23,7 @@ class Repl:
         Use it to send standard output from the container.
         """
         self.client = docker.APIClient()
+        self.on_close = on_close
 
         # Language selection
         if lang == "python":
@@ -68,9 +68,7 @@ class Repl:
         self.input.send(text.encode('utf-8')) # Convert to bytes
 
     def kill(self):
-        self.stop_listener()
         self.client.stop(self.container) # Stop the container
-        self.client.remove_container(self.container) # Remove the container
 
     def __listen(self, pipeout):
         logs = self.client.logs(
@@ -80,7 +78,7 @@ class Repl:
         )
         for line in logs:
             pipeout(line.decode('utf-8'))
-    
-    def stop_listener(self):
-        self.is_listening = False
-        self.listener.join() # Wait for __listen to break
+        
+        # Once this code is reached, the container is dead
+        self.on_close()
+        self.client.remove_container(self.container) # Remove the container
