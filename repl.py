@@ -26,13 +26,21 @@ class Repl:
         self.client = docker.APIClient()
 
         # Language selection
-        if lang == "source":
+        if lang == "java":
+            self.container = self.client.create_container(
+                image = "java",
+                stdin_open = True,
+                detach = True,
+                tty = False
+            )
+        elif lang == "source":
             self.container = self.client.create_container(
                 image = "source",
                 command = "node dist/repl/repl.js 4",
                 stdin_open = True,
                 detach = True,
-                tty = False)
+                tty = False
+            )
         
         self.client.start(self.container) # Start the container
         

@@ -1,0 +1,4 @@
+FROM base
+RUN apt-get install -y default-jdk
+RUN jshell # Perform first time set-up
+CMD jshell
