@@ -39,7 +39,19 @@ class Batch:
 
         # Language selection
         if lang == "python":
-            pass
+            self.container = self.client.create_container(
+                image = "python",
+                detach = False,
+                tty = False,
+                command = "sh -c 'python3.8 " + source_file + " > " + out_file + "'" if self.stdin is None else "sh -c 'python3.8 " + source_file + " > " + out_file + " < " + self.stdin + "'",
+                volumes = [VOLUME_PATH],
+                host_config = self.client.create_host_config(binds = {
+                    host_path: {
+                        'bind': VOLUME_PATH,
+                        'mode': 'rw'
+                    }
+                })
+            )
         elif lang == "java":
             self.container = self.client.create_container(
                 image = "java",
