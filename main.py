@@ -71,9 +71,10 @@ def run(update, context):
         if "file_ext" in context.chat_data:
             ext = context.chat_data["file_ext"]
             chat_id = str(update.effective_chat.id)
-            src = "user_data/" + chat_id + ext
-            stdin = "user_data/" + chat_id + ".txt"
-            if not os.path.exists("user_data/" + chat_id + ".txt"):
+            path = "user_data/" + chat_id + "/"
+            src = "file" + ext
+            stdin = "file" + ".txt"
+            if not os.path.exists(path + stdin):
                 stdin = None
             lang = {
                 ".c": "c",
@@ -86,7 +87,7 @@ def run(update, context):
                 update.message.reply_document(document=doc)
             def on_close():
                 context.chat_data.pop("container", None)
-            batch.launch(src, stdin, lang, on_finish, on_close)
+            batch.launch(path, src, stdin, lang, on_finish, on_close)
         else:
             update.message.reply_text("Error: No source code file detected.")
     else:
@@ -121,10 +122,10 @@ def document(update, context):
                 context.chat_data["file_ext"] = file_ext
                 # delete previous files
                 for other in KNOWN_FILE_TYPES[1:]:
-                    path = "user_files/" + chat_id + other
+                    path = "user_files/" + chat_id + "/file" + other
                     if os.path.exists(path):
                         os.remove(path)
-            doc.get_file().download(custom_path="user_files/" + chat_id + file_ext)
+            doc.get_file().download(custom_path="user_files/" + chat_id + "/file" + file_ext)
         else:
             update.message.reply_text("Unknown file type: " + file_ext)
     else:
