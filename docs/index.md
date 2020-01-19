@@ -16,7 +16,7 @@ The bot currently supports four languages: C, Java, Python and Source *(a subset
 
 ## How we built it
 
-On the front end, the bot was built using Python 3.8.0. On the back end, Docker SDK is used as an intermediate platform to handle the input and access an existing REPL or compiler to produce the ouput. (Include Microsoft Azure somewhere)
+On the front end, the bot was built using Python 3.8.0. On the back end, Docker SDK is used as an intermediate platform to handle the input and access an existing REPL or compiler to produce the ouput. Microsoft Azure's Container Registry and Web App for Containers were used to...
 
 ## Challenges we ran into
 
@@ -24,10 +24,13 @@ A fuckload
 
 ## Accomplishments that we're proud of
 
+Successfully creating a useful tool which our peers could benefit from.
+
 ## What we learned
 
 How to use Docker SDK
-
+How to use Microsoft Azure's Container Registry and Web App for Containers
+...
 
 ## What's next for Telegram REPL Bot
 
