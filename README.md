@@ -1,27 +1,65 @@
 # Telegram REPL Bot
 
-A telegram bot that is able to emulate the features of a REPL for popular programming languages. The supported programming languages are C, Java, Python and Source *(a subset of JavaScript that is predominantly used in SourceAcademy)*. You can try out the bot [here](https://t.me/the_REPL_bot).
+A telegram bot to facilitate programming on the go. The bot can be found [here](https://t.me/the_REPL_bot).
+
+## Team
+
+Created as part of [Hack and Roll 2020](https://hacknroll2020.devpost.com/).
+
+* Tan Wei Liang
+* Yong Ping
+* Ian Yong Yew Chuang
+
+## Features
+
+#### REPL (Read-Eval-Print-Loop)
+
+A Read-Eval-Print-Loop (REPL), also termed a language shell, is an interactive environment which takes the user's inputs, evaluates them, and returns the result to the user. As of now, the bot supports the following REPLs:
+
+* Python interpreter (Python)
+* JShell (Java)
+* Interactive GCC (C)
+* Source REPL ([Source](https://github.com/source-academy/js-slang))
+
+#### Batch Jobs
+
+The bot also supports the processing of source files. These are the supported languages as of now:
+
+* Python
+* Java
+* C
+* C++
+
+## Background
+
+
 
 ## Getting Started
 
 ### Prerequisites
 
-Python 3.8.0 is required. You can download Python from [here](https://www.python.org/downloads/).
-
-Docker is required. To install Docker:
+* Python 3.8.0
+* pip3
+* Docker
 
 ```
-sudo apt-get install docker.io
+$sudo apt-get install python3.8
+$sudo apt-get install python3-pip
+$sudo apt-get install docker.io
 ```
 
 ### Installing
 
-First, clone the repository:
+Clone the repository and `cd` into it.
 ```
-git clone https://github.com/wltan/telegram-repl-bot
+$git clone https://github.com/wltan/telegram-repl-bot
+$cd telegram-repl-bot
 ```
-There should be a file `setup.sh`. Run this file using the following command:
+To set up the necessary Docker images, run `setup.sh`.
 ```
-sudo ./setup.sh
+$sudo ./setup.sh
 ```
-To create the telegram bot, use this [bot](https://t.me/BotFather)
+Finally, to run the telegram bot, run `launch.sh`.
+```
+$sudo ./launch.sh
+```
