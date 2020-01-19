@@ -18,17 +18,13 @@ The bot currently supports four languages: C, Java, Python and Source *(a subset
 
 ## How we built it
 
-The bot is created using the official bot creator [BotFather](https://t.me/BotFather). At the front end, the bot is built using Python 3.8.0. At the back end, Docker SDK is used as an intermediate platform to handle the input and access an existing REPL or compiler to produce the ouput. Microsoft Azure's Container Registry and Web App for Containers are used to ...
+The bot is created using the official bot creator [BotFather](https://t.me/BotFather). At the front end, the bot is built using Python 3.8.0. At the back end, Docker SDK is used as an intermediate platform in the form of containers to handle the input and access an existing REPL or compiler to produce the ouput. Microsoft Azure's Virtual Machine service, Container Registry and Web App for Containers are used to manage the container images. 
 
 ## Challenges we ran into
 
 Initial unfamiliarity with creation of Telegram Bots and usage of Docker SDK and Microsoft Azure services, which we had to pick up and use immediately within the span of 24 hours. 
 
-Issue with credentials...
-
-*THE FOLLOWING PARAGRAPH MAY BE OMITTED FROM THE FINAL DEVPOST*
-
-There were a few issues with the Python REPL. Indentation is part of the syntax of Python, but it is impossible to input indentation (using tab characters) into the bot chat. At this stage, this issue has not yet been resolved yet (?) but a possible solution is to use "\t" literals in the raw message which then is converted into tab characters. 
+There was a major issue with the Python REPL. Indentation is part of the syntax of Python, but it is impossible to input indentation  into the bot chat because Telegram automatically removes leading blank spaces. The  solution implemented is to use "\t" literals in the raw message which then is converted into tab characters. 
 
 ## Accomplishments that we're proud of
 
