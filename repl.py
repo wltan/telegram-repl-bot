@@ -1,6 +1,7 @@
 import docker
 import time
 import threading
+import registry_credentials
 
 MESSAGE_LIMIT = 4096
 
@@ -23,34 +24,40 @@ class Repl:
         Use it to send standard output from the container.
         """
         self.client = docker.APIClient()
+        self.client.login(
+            username = registry_credentials.SERVICE_PRINCIPAL_ID,
+            password = registry_credentials.SERVICE_PRINCIPAL_PASSWORD,
+            registry = "replbotimages.azurecr.io"
+        )
+
         self.on_close = on_close
         self.lang = lang
 
         # Language selection
         if lang == "python":
             self.container = self.client.create_container(
-                image = "python-repl",
+                image = "replbotimages.azurecr.io/python-repl:v1",
                 stdin_open = True,
                 detach = True,
                 tty = True # If this is false, the Python shell doesn't bother outputting anything
             )
         elif lang == "java":
             self.container = self.client.create_container(
-                image = "java-repl",
+                image = "replbotimages.azurecr.io/java-repl:v1",
                 stdin_open = True,
                 detach = True,
                 tty = False
             )
         elif lang == "c":
             self.container = self.client.create_container(
-                image = "c-repl",
+                image = "replbotimages.azurecr.io/c-repl:v1",
                 stdin_open = True,
                 detach = True,
                 tty = False
             )
         elif lang == "source":
             self.container = self.client.create_container(
-                image = "source-repl",
+                image = "replbotimages.azurecr.io/source-repl:v1",
                 command = "node dist/repl/repl.js 4",
                 stdin_open = True,
                 detach = True,
