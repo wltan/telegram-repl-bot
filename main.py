@@ -101,7 +101,14 @@ def default(update, context):
     """
     if "mode" in context.chat_data and context.chat_data["mode"] == 1:
         if "container" in context.chat_data:
-            repl.pipein(context.chat_data["container"], update.message.text + "\n")
+            # replace leading \t strings
+            raw_input = update.message.text
+            indent = 0
+            while raw_input[:2] == "\\t":
+                indent += 1
+                raw_input = raw_input[2:]
+            stdin = indent * "\t" + raw_input
+            repl.pipein(context.chat_data["container"], stdin + "\n")
         else:
             update.message.reply_text("Error: Interpreter not started or already terminated")
     else:
