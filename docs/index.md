@@ -10,11 +10,21 @@ We foresee much potential in the REPL bot's usage. It is undoubtedly useful for 
 
 The bot has two modes: REPL mode and batch mode.
 
-In REPL (Read-Evaluate-Print-Loop) mode, the user can input single expressions which will be piecewise evaluated immediately. It provides an interactive sandbox programming environment which is most useful in testing small chunks of code. 
+In REPL (Read-Evaluate-Print-Loop) mode, the user can input single expressions which will be piecewise evaluated immediately. It provides an interactive sandbox programming environment which is most useful in testing small chunks of code. The REPL mode supports the following languages:
+
+* Python interpreter (Python)
+* JShell (Java)
+* Interactive GCC (C)
+* Source REPL ([Source](https://github.com/source-academy/js-slang))
 
 In batch mode, the user can upload a file in one of the following file types (.txt, .c, .cpp, .java, .py) which the bot will compile in the corresponding language. 
 
-The bot currently supports five languages: C, C++, Java, Python and Source *(a subset of JavaScript that is predominantly used in SourceAcademy, the main programming platform of CS1101S)*. These languages are used in the modules CS1010 and its variants. 
+* Python
+* Java
+* C
+* C++
+
+All the above languages are used in the modules CS1010 and its variants. 
 
 ## How we built it
 
@@ -24,7 +34,7 @@ The bot is created using the official bot creator [BotFather](https://t.me/BotFa
 
 Initial unfamiliarity with the creation of Telegram Bots and usage of Docker SDK and Microsoft Azure services, which we had to pick up and implement immediately within the span of 24 hours. 
 
-There was a major issue with the Python REPL. Indentation is part of the syntax of Python, but it is impossible to input indentation into the bot chat because Telegram automatically removes leading white spaces. The  solution implemented uses "\t" literals in the raw message which then is converted into tab characters. 
+There was a major issue with the Python REPL. Indentation is part of the syntax of Python, but it is impossible to input indentation into the bot chat because Telegram automatically removes leading white spaces. The solution implemented uses "\t" literals in the raw message which then is converted into tab characters. 
 
 ## Accomplishments that we're proud of
 

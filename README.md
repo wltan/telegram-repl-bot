@@ -32,7 +32,9 @@ The bot also supports the processing of source files. These are the supported la
 
 ## Background
 
+The modules CS1010 and its variants are notorious for being some of the most difficult and arduous modules in NUS. We wanted to create a tool to aid students in those modules in their learning. At the same time we envision said tool to be convenient, accessible and easy to use. A telegram bot is implemented because of its widespread usage across the campus and its fulfilling the above properties. 
 
+We foresee much potential in the REPL bot's usage. It is undoubtedly useful for students to quickly check the correctness of their codes. It can also be used as a teaching tool in the classroom setting. 
 
 ## Getting Started
 
