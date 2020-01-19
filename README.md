@@ -24,6 +24,4 @@ There should be a file `setup.sh`. Run this file using the following command:
 ```
 sudo ./setup.sh
 ```
-Ta-da!
-
 To create the telegram bot, use this [bot](https://t.me/BotFather)
