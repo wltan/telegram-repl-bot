@@ -107,6 +107,9 @@ def default(update, context):
             while raw_input[:2] == "\\t":
                 indent += 1
                 raw_input = raw_input[2:]
+            # literal \n string sent - send blank line
+            if raw_input == "\\n":
+                raw_input = ""
             stdin = indent * "\t" + raw_input
             repl.pipein(context.chat_data["container"], stdin + "\n")
         else:

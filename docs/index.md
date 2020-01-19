@@ -2,9 +2,9 @@
 
 ## Inspiration
 
-The modules CS1010 and its variants are notorious for being some of the most difficult and arduous modules in NUS. We wanted to create a tool to aid students in those modules in their learning. At the same time we envision said tool to be convenient, accessible and easy to use. A telegram bot is implemented because of its widespread usage across the campus and its fulfilling the above characteristics. 
+The modules CS1010 and its variants are notorious for being some of the most difficult and arduous modules in NUS. We wanted to create a tool to aid students in those modules in their learning. At the same time we envision said tool to be convenient, accessible and easy to use. A telegram bot is implemented because of its widespread usage across the campus and its fulfilling the above properties. 
 
-We foresee much potential in its usage. It is undoubtly useful for students to quickly check the correctness of their codes. It can also be used as a teaching tool in the classroom setting. 
+We foresee much potential in the REPL bot's usage. It is undoubtedly useful for students to quickly check the correctness of their codes. It can also be used as a teaching tool in the classroom setting. 
 
 ## What it does
 
@@ -14,7 +14,7 @@ In REPL (Read-Evaluate-Print-Loop) mode, the user can input single expressions w
 
 In batch mode, the user can upload a file in one of the following file types (.txt, .c, .cpp, .java, .py) which the bot will compile in the corresponding language. 
 
-The bot currently supports four languages: C, Java, Python and Source *(a subset of JavaScript that is predominantly used in SourceAcademy)*. These are the four languages used in the modules CS1010 and its variants. 
+The bot currently supports five languages: C, C++, Java, Python and Source *(a subset of JavaScript that is predominantly used in SourceAcademy, the main programming platform of CS1101S)*. These languages are used in the modules CS1010 and its variants. 
 
 ## How we built it
 
@@ -22,9 +22,9 @@ The bot is created using the official bot creator [BotFather](https://t.me/BotFa
 
 ## Challenges we ran into
 
-Initial unfamiliarity with creation of Telegram Bots and usage of Docker SDK and Microsoft Azure services, which we had to pick up and use immediately within the span of 24 hours. 
+Initial unfamiliarity with the creation of Telegram Bots and usage of Docker SDK and Microsoft Azure services, which we had to pick up and implement immediately within the span of 24 hours. 
 
-There was a major issue with the Python REPL. Indentation is part of the syntax of Python, but it is impossible to input indentation  into the bot chat because Telegram automatically removes leading blank spaces. The  solution implemented is to use "\t" literals in the raw message which then is converted into tab characters. 
+There was a major issue with the Python REPL. Indentation is part of the syntax of Python, but it is impossible to input indentation into the bot chat because Telegram automatically removes leading white spaces. The  solution implemented uses "\t" literals in the raw message which then is converted into tab characters. 
 
 ## Accomplishments that we're proud of
 
@@ -36,8 +36,8 @@ Successful implementation of Docker SDK and Microsoft Azure's Container Registry
 
 How to create a Telegram Bot
 
-How to use Docker SDK and Microsoft Azure's Container Registry and Web App for Containers
+How to use Docker SDK and Microsoft Azure's Virtual Machines, Container Registry and Web App for Containers
 
 ## What's next for Telegram REPL Bot
 
-Addition of other programming languages 
+Addition of other programming languages

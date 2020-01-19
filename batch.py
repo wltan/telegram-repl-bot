@@ -34,11 +34,6 @@ class Batch:
         self.on_close = on_close
 
         self.client = docker.APIClient()
-        self.client.login(
-            username = registry_credentials.SERVICE_PRINCIPAL_ID,
-            password = registry_credentials.SERVICE_PRINCIPAL_PASSWORD,
-            registry = "replbotimages.azurecr.io"
-        )
 
         source_file = VOLUME_PATH + self.src
         out_file = VOLUME_PATH + OUTPUT_FILENAME
@@ -47,7 +42,7 @@ class Batch:
         # Language selection
         if lang == "python":
             self.container = self.client.create_container(
-                image = "replbotimages.azurecr.io/python:v1",
+                image = "python",
                 detach = False,
                 tty = False,
                 command = "sh -c 'python3.8 " + source_file + " > " + out_file + "'" if self.stdin is None else "sh -c 'python3.8 " + source_file + " > " + out_file + " < " + self.stdin + "'",
@@ -61,7 +56,7 @@ class Batch:
             )
         elif lang == "java":
             self.container = self.client.create_container(
-                image = "replbotimages.azurecr.io/java:v1",
+                image = "java",
                 detach = False,
                 tty = False,
                 command = "sh -c 'java " + source_file + " > " + out_file + "'" if self.stdin is None else "sh -c 'java " + source_file + " > " + out_file + " < " + self.stdin + "'",
@@ -75,7 +70,7 @@ class Batch:
             )
         elif lang == "c":
             self.container = self.client.create_container(
-                image = "replbotimages.azurecr.io/c-batch:v1",
+                image = "c-batch",
                 detach = False,
                 tty = False,
                 command = "sh -c 'gcc " + source_file + " -o out && ./out > " + out_file + "'" if self.stdin is None else "sh -c 'gcc " + source_file + " -o out && ./out > " + out_file + " < " + self.stdin + "'",
@@ -89,7 +84,7 @@ class Batch:
             )
         elif lang == "c++":
             self.container = self.client.create_container(
-                image = "replbotimages.azurecr.io/cpp-batch:v1",
+                image = "cpp-batch",
                 detach = False,
                 tty = False,
                 command = "sh -c 'g++ " + source_file + " -o out && ./out > " + out_file + "'" if self.stdin is None else "sh -c 'g++ " + source_file + " -o out && ./out > " + out_file + " < " + self.stdin + "'",
