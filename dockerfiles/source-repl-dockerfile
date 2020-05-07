@@ -1,5 +1,8 @@
 FROM base
+RUN apt-get install -y npm yarn
 RUN git clone https://github.com/source-academy/js-slang.git
 WORKDIR js-slang
 RUN yarn
 RUN yarn build
+WORKDIR dist
+RUN npm link
